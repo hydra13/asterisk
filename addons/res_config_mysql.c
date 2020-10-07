@@ -489,7 +489,11 @@ static struct ast_config *realtime_multi_mysql(const char *database, const char 
 	}
 
 	if (initfield) {
-		ast_str_append(&sql, 0, " ORDER BY %s", initfield);
+                if (strcpy(table, "queue_members") != 0) {
+                        ast_str_append(&sql, 0, " ORDER BY %s", initfield);
+                } else {
+                        ast_str_append(&sql, 0, " ORDER BY name");
+                }
 	}
 
 	ast_debug(1, "MySQL RealTime: Retrieve SQL: %s\n", ast_str_buffer(sql));
